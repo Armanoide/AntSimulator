@@ -85,7 +85,7 @@ namespace LibModel.ManageEnvironment
                 DispatchUpdateToObserver();
             }
 
-            if (IsNight && totalTime - LastTimeNight >= 60000)
+            if (IsNight && totalTime - LastTimeNight >= 60000/2)
             {
                 Day++;
                 IsNight = false;

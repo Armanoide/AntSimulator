@@ -12,6 +12,8 @@ namespace LibAbstract.ManageCharacters
     {
         public double Life { get; set; }
 
+        public string SimpleName { get; set; }
+
         public string Name { get; set; }
 
         public bool Death { get; set; }
@@ -31,6 +33,7 @@ namespace LibAbstract.ManageCharacters
             ListObject = new List<AbstractObject>();
             Name = NameGenerator.GenerateLastName();
             Name = new System.Globalization.CultureInfo("en-US", false).TextInfo.ToTitleCase(Name.ToLower());
+            SimpleName = Name;
             Life = 100;
             Death = false;
         }

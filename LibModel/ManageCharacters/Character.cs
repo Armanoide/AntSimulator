@@ -2,6 +2,7 @@
 using LibAbstract.ManageEnvironment;
 using LibModel.Enum;
 using LibModel.ManageEnvironment;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -229,7 +230,7 @@ namespace LibModel.ManageCharacters
             {
                 return listArea.First();
             }
-            if (total > 0)
+            if (total > 0 && StayHome == false)
             {
                 return listArea[RandInt(1, total)];
             }
@@ -247,6 +248,19 @@ namespace LibModel.ManageCharacters
         {
             _destination = null;
             StayHome = true;
+        }
+
+        virtual public JObject ToJson()
+        {
+            return new JObject(
+                new JProperty("position", (this._position as Field).toJson()),
+                new JProperty("name", this.SimpleName),
+                new JProperty("life", this.Life),
+                new JProperty("destination", this._destination != null ? (this._destination as Field).toJson() : new JObject()),
+                new JProperty("stayHome", this.StayHome),
+                new JProperty("isStoping", this.IsStoping),
+                new JProperty("IsGoingHome", this.IsGoingHome)
+                );
         }
     }
 }

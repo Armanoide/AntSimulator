@@ -7,6 +7,8 @@ using LibAbstract.ManageEnvironment;
 using LibAbstract.ManageCharacters;
 using LibModel.ManageObjets;
 using LibModel.ManageEnvironment;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace LibModel.ManageCharacters
 {
@@ -96,6 +98,16 @@ namespace LibModel.ManageCharacters
 
             IsStoping = false;
             return base.ChoiceNextArea(listArea);
+        }
+
+        override public JObject ToJson()
+        {
+            JObject baseC = base.ToJson();
+            baseC.Merge(new JObject(
+                new JProperty("canBeat", this.CanBeat),
+                new JProperty("IsFighting", this.IsFighting)
+                ));
+            return baseC;
         }
     }
 }

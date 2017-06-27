@@ -14,6 +14,7 @@ namespace AntManager
             window.Close();
         }
 
+        [STAThread]
         public static void Main(string[] args)
         {
             var windowColor = new Color(0, 0, 0);

@@ -1,4 +1,5 @@
 ﻿using LibAbstract.ManageEnvironment;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,12 @@ namespace LibModel.ManageEnvironment
         {
         }
 
+        public JObject toJson()
+        {
+            return new JObject(
+                new JProperty("x", this.X),
+                new JProperty("y", this.Y)
+                );
+        }
     }
 }

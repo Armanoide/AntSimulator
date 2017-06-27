@@ -64,6 +64,8 @@ namespace AntManager
         private bool _modeZoom;
         private View _view;
         public bool Active;
+        private bool _isControlActive;
+
 
         public Simulator(RenderWindow app, int dimmension)
         {
@@ -151,7 +153,20 @@ namespace AntManager
             {
                 _option.HideName = !_option.HideName;
             }
+            if ((e.Code == Keyboard.Key.LControl || e.Code == Keyboard.Key.LControl))
+            {
+                _isControlActive = false;
+            }
+
+            if (e.Code == Keyboard.Key.S && _isControlActive == true)
+            {
+                _isControlActive = false;
+                Save s = new Save();
+                s.SaveAs(World);
+            }
+
         }
+
 
         public void OnKeyPressed(object sender, KeyEventArgs e)
         {
@@ -159,6 +174,12 @@ namespace AntManager
             {
                 _modeZoom = true;
             }
+
+            if ((e.Code == Keyboard.Key.LControl || e.Code == Keyboard.Key.LControl))
+            {
+                _isControlActive = true;
+            }
+
 
             if (e.Code == Keyboard.Key.Space)
             {

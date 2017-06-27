@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using LibModel.ManageObjets;
 using LibAbstract.ManageObjects;
+using Newtonsoft.Json.Linq;
 
 namespace LibModel.ManageEnvironment
 {
@@ -19,7 +20,6 @@ namespace LibModel.ManageEnvironment
         private double _lastTimeEggHeach;
         private double _lastTimeRemoveDead;
         private double _lastTimeHealthCare;
-        private Thread _thread;
 
         public Anthill()
         {
@@ -245,20 +245,47 @@ namespace LibModel.ManageEnvironment
                 }
             }
 
-            _thread = null;
         }
 
         override public void Simulate()
         {
             ProcessSimulate();
-/*            if (_thread != null)
+        }
+
+        public JObject ToJson()
+        {
+            JArray queens = new JArray();
+            JArray fighters = new JArray();
+            JArray pickers = new JArray();
+
+            foreach(AntQueen q in ListCharacter.Where(c => c.GetType() == typeof(AntQueen)).ToList())
             {
-                return;
+                queens.Add(q.ToJson());
             }
 
-            _thread = new Thread(new ThreadStart());
-            _thread.Start(); */
+            foreach (AntPicker p in ListCharacter.Where(c => c.GetType() == typeof(AntPicker)).ToList())
+            {
+                pickers.Add(p.ToJson());
+            }
 
+            foreach (AntFighter f in ListCharacter.Where(c => c.GetType() == typeof(AntFighter)).ToList())
+            {
+                fighters.Add(f.ToJson());
+            }
+
+            return new JObject(
+                 new JProperty("position",(this.Position as Field).toJson()),
+                 new JProperty("queens", queens),
+                 new JProperty("fighters", fighters),
+                 new JProperty("pickers", pickers),
+                 new JProperty("_lastTimeAntFighterCanBeat", this._lastTimeAntFighterCanBeat),
+                 new JProperty("_lastTimeEggCreate", this._lastTimeEggCreate),
+                 new JProperty("_lastTimeEggHeach", this._lastTimeEggHeach),
+                 new JProperty("_lastTimeRemoveDead", this._lastTimeRemoveDead),
+                 new JProperty("_lastTimeHealthCare", this._lastTimeHealthCare)
+                 );
         }
+
     }
+
 }

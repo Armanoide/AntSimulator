@@ -3,6 +3,7 @@ using LibAbstract.ManageEnvironment;
 using LibAbstract.ManageObjects;
 using LibModel.ManageEnvironment;
 using LibModel.ManageObjets;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -219,6 +220,16 @@ namespace LibModel.ManageCharacters
             }
 
             return listSelected;
+        }
+
+        override public JObject ToJson()
+        {
+            JObject baseC = base.ToJson();
+            baseC.Merge(new JObject(
+                new JProperty("_isWalkingForFoodAtPosition", this._isWalkingForFoodAtPosition),
+                new JProperty("totalCarringFound", this.ListObject.Count())
+                ));
+            return baseC;
         }
     }
 }

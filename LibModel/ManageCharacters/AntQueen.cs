@@ -9,6 +9,7 @@ using LibModel.Factories;
 using LibModel.ManageObjets;
 using LibAbstract.ManageObjects;
 using LibModel.ManageEnvironment;
+using Newtonsoft.Json.Linq;
 
 namespace LibModel.ManageCharacters
 {
@@ -52,11 +53,20 @@ namespace LibModel.ManageCharacters
 
             if (Queens.Count > 1 && Queens.Last() == this)
             {
-                home.ListCharacter.Remove(this);
-                _factoryAnthill = new FactoryAnthill(world.Fields ,home.WidthWorld, home.HeightWorld);
-                var newAnthill = (Anthill)_factoryAnthill.CreateEnvironment();
-                newAnthill.LoadEnvironment(_factoryAnthill);
-                world.ListAnthill.Add(newAnthill);
+                // limit max 3 anthill
+                if (world.ListAnthill.Count <= 3)
+                {
+                    home.ListCharacter.Remove(this);
+                    _factoryAnthill = new FactoryAnthill(world.Fields, home.WidthWorld, home.HeightWorld);
+                    var newAnthill = (Anthill)_factoryAnthill.CreateEnvironment();
+                    newAnthill.LoadEnvironment(_factoryAnthill);
+                    world.ListAnthill.Add(newAnthill);
+
+                } else
+                {
+                    home.ListCharacter.Remove(this);
+                    this.Life = 0;
+                }
             }
 
         }
@@ -90,6 +100,11 @@ namespace LibModel.ManageCharacters
 
 
             return base.ChoiceNextArea(listArea);
+        }
+
+        override public JObject ToJson()
+        {
+            return base.ToJson();
         }
 
     }
